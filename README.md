@@ -33,19 +33,37 @@ Running a non-system process as root is considered a security risk, so an altern
 
 ```
 sudo mkdir -p /etc/udev/rules.d
-sudo nano /etc/udev/rules.d/85-pure-data.rules
+sudo nano /etc/udev/rules.d/51-blink1.rules
 ```
-Now add the following rules to /etc/udev/rules.d/85-pure-data.rules:
+Now add the following rules to /etc/udev/rules.d/51-blink1.rules:
 
 ```
-SUBSYSTEM=="usb", GROUP="input", MODE="777"
+SUBSYSTEM=="input", GROUP="input", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="27b8", ATTRS{idProduct}=="01ed", MODE:="666", GROUP="plugdev"
+KERNEL=="hidraw*", ATTRS{idVendor}=="27b8", ATTRS{idProduct}=="01ed", MODE="0666", GROUP="plugdev"
 ```
+
+And replace `27b8` and `01ed` with your device idVendor/idProduct or add this generic rules for ALL devices:
+
+```
+SUBSYSTEM=="input", GROUP="input", MODE="0777"
+SUBSYSTEM=="usb", MODE:="777", GROUP="plugdev"
+KERNEL=="hidraw*", MODE="0777", GROUP="plugdev"
+```
+
+Reload udev rules
+
+```
+sudo udevadm control --reload-rules
+```
+
+Unplug and plug back your HID device
 
 Then create an "input" group and add yourself to it:
 
 ```
 sudo groupadd -f input
-sudo gpasswd -a YOURUSERNAME input
+sudo gpasswd -a $USER input
 ```
 Reboot your machine for the rules to take effect.
 Your nodejs / nodered has now FULL ACCESS !! to you usb devides. Feel free to adjust the permissions to fit your needs.

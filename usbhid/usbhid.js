@@ -43,8 +43,10 @@ module.exports = function(RED) {
       node.status({
         fill: "red",
         shape: "ring",
-        text: "disconnected"
+        text: "Disconnected"
       });
+      node.error(err);
+      node.send([null, {payload: err}])
     }
 
 
