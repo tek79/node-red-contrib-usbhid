@@ -4,36 +4,23 @@ module.exports = function(RED) {
 
   function HIDConfigNode(n) {
     RED.nodes.createNode(this, n);
-    this.vid = n.vid;
-    this.pid = n.pid;
-
+    this.path = n.path;
   }
 
   function usbHIDNode(config) {
     RED.nodes.createNode(this, config);
 
+    var node = this;
     this.server = RED.nodes.getNode(config.connection);
-
+    var device
     try {
-      var device = new HID.HID(this.server.vid, this.server.pid);
+      device = new HID.HID(this.server.path);
 
-      this.status({
+      node.status({
         fill: "green",
         shape: "dot",
         text: "connected"
       });
-
-    } catch (err) {
-      this.status({
-        fill: "red",
-        shape: "ring",
-        text: "disconnected"
-      });
-    }
-
-
-    var node = this;
-
 
     device.on("data", function(data) {
       var message = {
@@ -52,8 +39,18 @@ module.exports = function(RED) {
       node.send([null, message]);
     });
 
-    this.on('input', function(msg) {
+    } catch (err) {
+      node.status({
+        fill: "red",
+        shape: "ring",
+        text: "disconnected"
+      });
+    }
 
+
+    node.on('input', function(msg) {
+
+      if(!device) return
 
       var data = toArray(msg.payload);
 
@@ -62,7 +59,8 @@ module.exports = function(RED) {
     });
 
 
-    this.on('close', function() {
+    node.on('close', function() {
+      if(!device) return 
       device.close();
     });
 
@@ -83,7 +81,7 @@ module.exports = function(RED) {
     RED.nodes.createNode(this, config);
 
     var node = this;
-    this.on('input', function(msg) {
+    node.on('input', function(msg) {
 
       var devices = HID.devices();
       msg.payload = devices;
@@ -91,7 +89,6 @@ module.exports = function(RED) {
 
     });
   }
-
 
   RED.nodes.registerType("getHIDdevices", getHIDNode);
   RED.nodes.registerType("HIDdevice", usbHIDNode);

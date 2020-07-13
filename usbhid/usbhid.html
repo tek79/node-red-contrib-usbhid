@@ -2,8 +2,7 @@
   RED.nodes.registerType("HIDConfig",{
     category:'config',
     defaults: {
-      vid: {value: '', required: true},
-      pid: {value: '', required: true},
+      path: {value: '', required: true},
       name: {value: ''}
     },
     label: function(){
@@ -16,13 +15,8 @@
 <script type="text/x-red" data-template-name="HIDConfig">
 
   <div class="form-row">
-    <label for="node-config-input-vid"><i class="fa "></i> VID </label>
-    <input type="text" id="node-config-input-vid" placeholder="">
-  </div>
-
-  <div class="form-row">
-    <label for="node-config-input-pid"><i class="fa "></i> PID </label>
-    <input type="text" id="node-config-input-pid" placeholder="">
+    <label for="node-config-input-path"><i class="fa "></i> Path </label>
+    <input type="text" id="node-config-input-path" placeholder="">
   </div>
 
     <div class="form-row">
