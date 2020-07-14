@@ -1,19 +1,20 @@
 {
-  "name": "node-red-contrib-usbhid",
-  "version": "0.0.1",
+  "name": "node-red-contrib-usbhid-reader",
+  "version": "0.1.0",
   "description": "A node-hid (USB HID device access library) wrapper for nodered",
   "keywords": [
     "node-red",
     "usbhid",
     "usb-hid",
     "hid",
-    "usb"
+    "usb",
+    "scanner",
   ],
-  "author": "Dennis Henning <somebuddy87@gmail.com>",
+  "author": "Daniel Lando <daniel.sorridi@gmail.com>",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/somebuddy87/node-red-contrib-usbhid.git"
+    "url": "git+https://github.com/robertsLando/node-red-contrib-usbhid.git"
   },
   "dependencies": {
     "node-hid": "^1.3.0"
