@@ -8,7 +8,7 @@
     "usb-hid",
     "hid",
     "usb",
-    "scanner",
+    "scanner"
   ],
   "author": "Daniel Lando <daniel.sorridi@gmail.com>",
   "license": "Apache-2.0",
