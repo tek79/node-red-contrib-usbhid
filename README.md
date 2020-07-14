@@ -25,7 +25,7 @@ Platforms we pre-build binaries for:
 
 ## How to Use
 
-### HID ( USB ) read/write access for non root users ( in my case for user pi on an raspberry pi 2 running nodered )
+### HID ( USB ) read/write access for non root users ( in my case for user pi on an raspberry pi 4 running nodered )
 
 The Pd-extended [hid] object allows you to access Human Interface Devices such as mice, keyboards, and joysticks. However, in most Linux distributions, these devices are setup to where they cannot be read/written directly by Pd unless you run it as root.
 
@@ -68,3 +68,20 @@ sudo gpasswd -a $USER input
 Reboot your machine for the rules to take effect.
 Your nodejs / nodered has now FULL ACCESS !! to you usb devides. Feel free to adjust the permissions to fit your needs.
 
+### Parse keys
+
+The buffer that is sent to the output needs to be parsed in order to detect the key pressed. To detect the key you can use a function node with this code:
+
+```js
+var keymap = {'04':'A','05':'B','06':'C','07':'D','08':'E','09':'F','0a':'G','0b':'H','0c':'I','0d':'J','0e':'K','0f':'L','10':'M','11':'N','12':'O','13':'P','14':'Q','15':'R','16':'S','17':'T','18':'U','19':'V','1a':'W','1b':'X','1c':'Y','1d':'Z','1e':'1','1f':'2','20':'3','21':'4','22':'5','23':'6','24':'7','25':'8','26':'9','27':'0','00':''}
+var hex = Buffer.from([msg.payload[3]]).toString('hex');
+
+var key = keymap[hex]
+```
+
+
+For more info check:
+
+- https://github.com/node-hid/node-hid/issues/228#issuecomment-408710289
+- https://github.com/imyelo/hid-scanner
+- https://github.com/imyelo/hid-scanner/blob/master/lib/keymap.raw.json
