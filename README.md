@@ -25,6 +25,12 @@ Platforms we pre-build binaries for:
 
 ## How to Use
 
+### Install any missing deps
+
+```
+sudo apt install libudev-dev
+```
+
 ### HID ( USB ) read/write access for non root users ( in my case for user pi on an raspberry pi 4 running nodered )
 
 The Pd-extended [hid] object allows you to access Human Interface Devices such as mice, keyboards, and joysticks. However, in most Linux distributions, these devices are setup to where they cannot be read/written directly by Pd unless you run it as root.
